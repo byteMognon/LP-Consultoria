@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guilherme Mognon — Consórcio Estratégico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0A0A0A;
+  --ink2:       #111111;
+  --ink3:       #171717;
+  --red:        #B8091E;
+  --red-hi:     #D40F24;
+  --gold:       #B8963E;
+  --gold-hi:    #D4AF5A;
+  --white:      #F4F0EC;
+  --white-dim:  rgba(244,240,236,0.55);
+  --white-faint:rgba(244,240,236,0.18);
+  --white-ghost:rgba(244,240,236,0.07);
+  --rule:       rgba(244,240,236,0.1);
+  --rule-red:   rgba(184,9,30,0.35);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--ink);color:var(--white);overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased;}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:8px;height:8px;background:var(--red-hi);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+#cur-ring{position:fixed;top:0;left:0;width:32px;height:32px;border:1px solid rgba(184,9,30,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+#cur.big{width:14px;height:14px;}
+#cur-ring.big{width:52px;height:52px;border-color:rgba(184,9,30,.8);}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.r.d1{transition-delay:.1s;}.r.d2{transition-delay:.2s;}.r.d3{transition-delay:.3s;}.r.d4{transition-delay:.4s;}.r.d5{transition-delay:.5s;}
+.r.on{opacity:1;transform:none;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:200;padding:28px 72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:border-color .4s,background .4s;}
+nav.scrolled{background:rgba(10,10,10,.96);border-color:var(--rule);backdrop-filter:blur(16px);}
+.nav-logo{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:.04em;color:var(--white);text-decoration:none;}
+.nav-logo em{font-style:normal;color:var(--red-hi);}
+.nav-links{display:flex;gap:48px;align-items:center;}
+.nav-links a{font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--white-dim);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-btn{font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--white);text-decoration:none;padding:11px 28px;border:1px solid var(--rule-red);transition:background .25s,border-color .25s;}
+.nav-btn:hover{background:var(--red);border-color:var(--red);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 72px;position:relative;overflow:hidden;background:var(--ink);}
+.hero::before{content:'';position:absolute;top:0;right:42%;bottom:0;width:1px;background:linear-gradient(180deg,transparent 0%,var(--rule) 25%,var(--rule) 75%,transparent 100%);pointer-events:none;}
+.hero-left{position:relative;z-index:1;padding:140px 80px 140px 0;}
+.hero-right{position:relative;z-index:1;padding:140px 0 140px 80px;}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--red-hi);margin-bottom:40px;display:flex;align-items:center;gap:14px;}
+.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--red);}
+.hero-h1{font-family:var(--serif);font-size:clamp(64px,7vw,108px);font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--white);margin-bottom:40px;}
+.hero-h1 em{font-style:italic;color:var(--white-dim);display:block;}
+.hero-h1 strong{font-weight:600;display:block;}
+.hero-desc{font-size:15px;font-weight:300;line-height:1.85;color:var(--white-dim);max-width:420px;margin-bottom:56px;}
+.hero-actions{display:flex;align-items:center;gap:32px;}
+.btn-prim{font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--white);background:var(--red);padding:16px 40px;text-decoration:none;border:1px solid var(--red);transition:background .25s,box-shadow .25s;display:inline-block;}
+.btn-prim:hover{background:var(--red-hi);box-shadow:0 12px 40px rgba(184,9,30,.35);}
+.btn-ghost{font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--white-dim);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .2s;}
+.btn-ghost:hover{color:var(--white);}
+.btn-ghost-arrow{width:32px;height:1px;background:currentColor;position:relative;}
+.btn-ghost-arrow::after{content:'';position:absolute;right:0;top:-3px;width:6px;height:6px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg);}
+.hero-stats{display:flex;flex-direction:column;gap:0;}
+.hero-stat{padding:36px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;}
+.hero-stat:first-child{border-top:1px solid var(--rule);}
+.stat-num{font-family:var(--serif);font-size:52px;font-weight:300;line-height:1;color:var(--gold-hi);letter-spacing:-.02em;min-width:90px;}
+.stat-label{font-size:13px;font-weight:400;color:var(--white);margin-bottom:4px;}
+.stat-desc{font-size:12px;font-weight:300;color:var(--white-dim);line-height:1.6;}
+.hero-scroll{position:absolute;bottom:40px;left:72px;z-index:1;display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--white-faint);animation:fadeUp 1s ease 1.5s both;}
+.hero-scroll-line{width:40px;height:1px;background:var(--rule);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+.s-pad{max-width:1280px;margin:0 auto;padding:120px 72px;}
+.s-label{font-family:var(--mono);font-size:9px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--red-hi);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.s-label::before{content:'';display:block;width:28px;height:1px;background:var(--red);}
+
+/* URGENCY */
+.urgency-bar{background:var(--ink3);border-top:1px solid var(--rule-red);border-bottom:1px solid var(--rule-red);padding:18px 72px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.urg-label{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--white-dim);}
+.urg-red{color:var(--red-hi);}
+.timer-row{display:flex;gap:4px;align-items:center;}
+.t-unit{text-align:center;}
+.t-num{font-family:var(--serif);font-size:32px;font-weight:300;line-height:1;color:var(--white);min-width:44px;display:inline-block;}
+.t-label{font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--white-faint);margin-top:2px;}
+.t-sep{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--white-dim);margin:0 4px;padding-bottom:4px;}
+
+/* PAIN */
+.pain-wrap{background:var(--ink);border-top:1px solid var(--rule);}
+.pain-h{font-family:var(--serif);font-size:clamp(48px,6vw,88px);font-weight:300;line-height:1;letter-spacing:-.025em;max-width:780px;margin-bottom:80px;}
+.pain-h em{font-style:italic;color:var(--white-dim);}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.pain-card{background:var(--ink);padding:52px 48px;position:relative;overflow:hidden;transition:background .35s;}
+.pain-card::after{content:'';position:absolute;left:0;top:0;width:2px;height:0;background:var(--red);transition:height .45s cubic-bezier(.16,1,.3,1);}
+.pain-card:hover{background:var(--ink2);}
+.pain-card:hover::after{height:100%;}
+.pain-n{font-family:var(--serif);font-size:64px;font-weight:300;line-height:1;color:var(--rule);margin-bottom:28px;display:block;transition:color .35s;}
+.pain-card:hover .pain-n{color:var(--rule-red);}
+.pain-card h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:14px;color:var(--white);}
+.pain-card p{font-size:14px;font-weight:300;line-height:1.85;color:var(--white-dim);}
+
+/* SOLUTION */
+.sol-wrap{background:var(--ink2);border-top:1px solid var(--rule);}
+.sol-inner{display:grid;grid-template-columns:1fr 1fr;gap:120px;align-items:start;}
+.sol-left h2{font-family:var(--serif);font-size:clamp(48px,5.5vw,82px);font-weight:300;line-height:1;letter-spacing:-.025em;margin-bottom:36px;}
+.sol-left h2 em{font-style:italic;color:var(--white-dim);display:block;}
+.sol-left p{font-size:15px;font-weight:300;line-height:1.85;color:var(--white-dim);margin-bottom:20px;}
+.sol-left strong{color:var(--white);font-weight:400;}
+.pace-steps{margin-top:56px;border-top:1px solid var(--rule);}
+.pace-step{display:grid;grid-template-columns:56px 1fr;gap:28px;padding:28px 0;border-bottom:1px solid var(--rule);align-items:start;transition:all .2s;}
+.pace-letter{font-family:var(--serif);font-size:44px;font-weight:300;line-height:1;color:var(--red);letter-spacing:-.02em;}
+.pace-step-title{font-size:14px;font-weight:400;color:var(--white);margin-bottom:5px;}
+.pace-step-desc{font-size:13px;font-weight:300;color:var(--white-dim);line-height:1.7;}
+.pace-visual{border:1px solid var(--rule);padding:56px;background:var(--ink);position:sticky;top:120px;}
+.pace-badge{font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--red-hi);margin-bottom:32px;}
+.pace-big{font-family:var(--serif);font-size:clamp(72px,8vw,108px);font-weight:300;letter-spacing:-.02em;line-height:.9;background:linear-gradient(180deg,var(--white) 0%,var(--white-faint) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:40px;}
+.pace-tagline{font-family:var(--serif);font-style:italic;font-size:18px;font-weight:300;color:var(--white-dim);margin-bottom:48px;line-height:1.5;}
+.pace-chips{display:flex;gap:12px;flex-wrap:wrap;}
+.pace-chip{padding:10px 20px;border:1px solid var(--rule);font-size:12px;font-weight:300;letter-spacing:.15em;color:var(--white-dim);transition:all .25s;text-transform:uppercase;font-family:var(--mono);}
+.pace-chip:hover{border-color:var(--red);color:var(--white);background:rgba(184,9,30,.08);}
+.pace-cta-link{margin-top:48px;padding-top:32px;border-top:1px solid var(--rule);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--white-dim);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:14px;}
+.pace-cta-link:hover{color:var(--white);}
+.pace-cta-arrow{flex:1;height:1px;background:currentColor;position:relative;max-width:60px;}
+.pace-cta-arrow::after{content:'';position:absolute;right:0;top:-3px;width:6px;height:6px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg);}
+
+/* BENEFITS */
+.ben-wrap{background:var(--ink);border-top:1px solid var(--rule);}
+.ben-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:80px;}
+.ben-h{font-family:var(--serif);font-size:clamp(48px,5.5vw,82px);font-weight:300;line-height:1;letter-spacing:-.025em;}
+.ben-h em{font-style:italic;color:var(--white-dim);}
+.ben-sub{font-size:15px;font-weight:300;line-height:1.85;color:var(--white-dim);}
+.ben-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.ben-card{background:var(--ink);padding:48px 40px;transition:background .3s;position:relative;overflow:hidden;}
+.ben-card:hover{background:var(--ink3);}
+.ben-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.ben-card:hover::before{transform:scaleX(1);}
+.ben-card-num{font-family:var(--serif);font-size:13px;font-weight:300;color:var(--red);letter-spacing:.1em;margin-bottom:32px;font-style:italic;}
+.ben-card h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:14px;line-height:1.2;}
+.ben-card p{font-size:13px;font-weight:300;line-height:1.8;color:var(--white-dim);}
+
+/* OBJECTIONS */
+.obj-wrap{background:var(--ink2);border-top:1px solid var(--rule);}
+.obj-inner{display:grid;grid-template-columns:1fr 1fr;gap:120px;}
+.obj-left h2{font-family:var(--serif);font-size:clamp(44px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.025em;position:sticky;top:120px;}
+.obj-left h2 em{font-style:italic;color:var(--white-dim);display:block;}
+.obj-list{display:flex;flex-direction:column;}
+.obj-item{border-bottom:1px solid var(--rule);}
+.obj-item:first-child{border-top:1px solid var(--rule);}
+.obj-q{width:100%;padding:28px 0;text-align:left;background:none;border:none;color:var(--white);font-family:var(--sans);font-size:15px;font-weight:300;cursor:none;display:flex;justify-content:space-between;align-items:center;gap:20px;transition:color .2s;}
+.obj-icon{width:22px;height:22px;border:1px solid var(--rule);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:var(--white-dim);}
+.obj-item.open .obj-icon{background:var(--red);border-color:var(--red);color:#fff;transform:rotate(45deg);}
+.obj-icon svg{width:10px;height:10px;}
+.obj-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1);}
+.obj-a-inner{padding:0 0 28px;font-size:14px;font-weight:300;line-height:1.85;color:var(--white-dim);}
+.obj-item.open .obj-a{max-height:220px;}
+.obj-a-inner strong{color:var(--white);font-weight:400;}
+
+/* TESTIMONIALS */
+.test-wrap{background:var(--ink);border-top:1px solid var(--rule);}
+.test-h-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:80px;gap:40px;}
+.test-h{font-family:var(--serif);font-size:clamp(44px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.025em;}
+.test-h em{font-style:italic;color:var(--white-dim);}
+.test-h-note{font-size:13px;font-weight:300;color:var(--white-dim);max-width:280px;text-align:right;line-height:1.7;flex-shrink:0;}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.test-card{background:var(--ink);padding:48px 40px;transition:background .3s;position:relative;}
+.test-card:hover{background:var(--ink3);}
+.test-mark{font-family:var(--serif);font-size:80px;line-height:.8;font-weight:300;color:var(--rule-red);position:absolute;top:24px;right:32px;pointer-events:none;}
+.test-stars{display:flex;gap:3px;margin-bottom:28px;}
+.test-star{color:var(--gold);font-size:11px;}
+.test-text{font-family:var(--serif);font-size:17px;font-weight:300;line-height:1.7;color:var(--white-dim);margin-bottom:32px;font-style:italic;}
+.test-text strong{font-style:normal;font-weight:500;color:var(--white);}
+.test-rule{width:32px;height:1px;background:var(--red);margin-bottom:20px;}
+.test-name{font-size:13px;font-weight:400;color:var(--white);margin-bottom:3px;}
+.test-role{font-size:11px;font-weight:300;color:var(--white-dim);letter-spacing:.08em;}
+
+/* OFFER */
+.offer-wrap{background:var(--ink2);border-top:1px solid var(--rule);}
+.offer-inner{display:grid;grid-template-columns:1fr 1fr;gap:120px;}
+.offer-left h2{font-family:var(--serif);font-size:clamp(44px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.025em;margin-bottom:32px;}
+.offer-left h2 em{font-style:italic;color:var(--white-dim);display:block;}
+.offer-left>p{font-size:15px;font-weight:300;line-height:1.85;color:var(--white-dim);}
+.offer-items{margin-top:52px;border-top:1px solid var(--rule);}
+.offer-item{display:grid;grid-template-columns:1fr auto;gap:20px;padding:24px 0;border-bottom:1px solid var(--rule);align-items:center;}
+.offer-item-title{font-size:14px;font-weight:400;color:var(--white);margin-bottom:4px;}
+.offer-item-desc{font-size:12px;font-weight:300;color:var(--white-dim);}
+.offer-item-val{text-align:right;font-family:var(--mono);}
+.offer-item-del{font-size:11px;color:var(--white-faint);display:block;text-decoration:line-through;}
+.offer-item-free{font-size:11px;color:var(--gold-hi);letter-spacing:.1em;text-transform:uppercase;}
+.offer-box{border:1px solid var(--rule);padding:56px;position:relative;overflow:hidden;background:var(--ink);position:sticky;top:120px;}
+.offer-box::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--red),transparent);}
+.offer-box-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--red-hi);margin-bottom:24px;}
+.offer-box-h{font-family:var(--serif);font-size:44px;font-weight:300;line-height:1;letter-spacing:-.02em;margin-bottom:12px;}
+.offer-box-h span{color:var(--gold-hi);font-style:italic;}
+.offer-box-sub{font-size:13px;font-weight:300;color:var(--white-dim);line-height:1.7;margin-bottom:44px;}
+.bonus-list{border-top:1px solid var(--rule);padding-top:28px;margin-bottom:44px;display:flex;flex-direction:column;gap:14px;}
+.bonus-line{display:flex;align-items:flex-start;gap:14px;}
+.bonus-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px;}
+.bonus-text{font-size:13px;font-weight:300;color:var(--white-dim);line-height:1.6;}
+.bonus-text strong{color:var(--white);font-weight:400;}
+.offer-cta{display:block;padding:18px 36px;background:var(--red);border:1px solid var(--red);color:var(--white);text-decoration:none;text-align:center;font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;transition:background .25s,box-shadow .25s;margin-bottom:16px;}
+.offer-cta:hover{background:var(--red-hi);box-shadow:0 12px 36px rgba(184,9,30,.3);}
+.offer-note{font-size:11px;font-weight:300;color:var(--white-faint);text-align:center;letter-spacing:.08em;}
+
+/* FAQ */
+.faq-wrap{background:var(--ink);border-top:1px solid var(--rule);}
+.faq-h{font-family:var(--serif);font-size:clamp(44px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.025em;margin-bottom:72px;}
+.faq-h em{font-style:italic;color:var(--white-dim);}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.faq-card{background:var(--ink);padding:40px;transition:background .3s;}
+.faq-card:hover{background:var(--ink3);}
+.faq-num{font-family:var(--serif);font-size:13px;font-weight:300;font-style:italic;color:var(--red);margin-bottom:16px;}
+.faq-q{font-family:var(--serif);font-size:19px;font-weight:400;margin-bottom:14px;line-height:1.3;}
+.faq-a{font-size:13px;font-weight:300;line-height:1.8;color:var(--white-dim);}
+
+/* FINAL CTA */
+.final-wrap{background:var(--ink2);border-top:1px solid var(--rule);}
+.final-inner{text-align:center;max-width:800px;margin:0 auto;}
+.final-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--red-hi);margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:14px;}
+.final-eyebrow::before,.final-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--red);}
+.final-h{font-family:var(--serif);font-size:clamp(60px,7vw,110px);font-weight:300;line-height:.92;letter-spacing:-.025em;margin-bottom:32px;}
+.final-h em{font-style:italic;color:var(--white-dim);display:block;}
+.final-p{font-size:16px;font-weight:300;line-height:1.85;color:var(--white-dim);max-width:520px;margin:0 auto 56px;}
+.final-cta{display:inline-block;padding:20px 60px;background:var(--red);border:1px solid var(--red);color:var(--white);text-decoration:none;font-size:11px;font-weight:400;letter-spacing:.25em;text-transform:uppercase;transition:all .25s;}
+.final-cta:hover{background:var(--red-hi);box-shadow:0 16px 48px rgba(184,9,30,.35);}
+.final-guarantee{display:inline-flex;align-items:center;gap:12px;margin-top:28px;font-size:12px;font-weight:300;color:var(--white-faint);letter-spacing:.1em;}
+.final-guarantee::before,.final-guarantee::after{content:'';display:block;width:14px;height:1px;background:var(--rule);}
+.final-ps{margin-top:80px;padding-top:60px;border-top:1px solid var(--rule);font-family:var(--serif);font-style:italic;font-size:15px;font-weight:300;color:var(--white-faint);line-height:1.8;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid var(--rule);padding:40px 72px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.footer-logo{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.04em;}
+.footer-logo em{font-style:normal;color:var(--red-hi);}
+.footer-links{display:flex;gap:36px;}
+.footer-links a{font-size:11px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--white-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--white);}
+.footer-copy{font-family:var(--mono);font-size:10px;color:var(--white-faint);letter-spacing:.12em;}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:36px;right:36px;z-index:500;display:flex;align-items:center;gap:12px;background:#141414;border:1px solid rgba(37,211,102,.3);color:var(--white);padding:13px 22px 13px 16px;text-decoration:none;font-size:11px;font-weight:300;letter-spacing:.15em;text-transform:uppercase;transition:all .3s;cursor:none;}
+.wa-float:hover{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.6);}
+.wa-icon{color:#25D366;flex-shrink:0;}
+.wa-pulse{position:fixed;bottom:45px;right:45px;z-index:499;width:44px;height:44px;border-radius:50%;pointer-events:none;background:rgba(37,211,102,.15);animation:wapulse 2.5s ease-out infinite;}
+@keyframes wapulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:24px 40px;}
+  .hero{grid-template-columns:1fr;padding:0 40px;}
+  .hero::before{display:none;}
+  .hero-left{padding:140px 0 60px;}
+  .hero-right{padding:0 0 80px;}
+  .sol-inner,.offer-inner,.obj-inner{grid-template-columns:1fr;gap:64px;}
+  .ben-header{grid-template-columns:1fr;gap:24px;}
+  .test-h-row{flex-direction:column;gap:16px;}
+  .test-h-note{text-align:left;max-width:none;}
+  .s-pad{padding:80px 40px;}
+  .urgency-bar{padding:16px 40px;}
+  footer{padding:36px 40px;}
+  .pace-visual,.offer-box,.obj-left h2{position:relative;top:0;}
+  .faq-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .nav-links{display:none;}
+  .s-pad{padding:64px 24px;}
+  .hero{padding:0 24px;}
+  .hero-left{padding:120px 0 48px;}
+  .pain-grid,.ben-grid,.test-grid{grid-template-columns:1fr;}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:20px;}
+  .hero-scroll{left:24px;}
+  footer{padding:32px 24px;flex-direction:column;align-items:flex-start;gap:20px;}
+  .wa-float{right:20px;bottom:20px;}
+  .wa-pulse{right:29px;bottom:29px;}
+  .offer-box{padding:36px 28px;}
+  .pace-visual{padding:36px 28px;}
+  .sol-inner,.offer-inner,.obj-inner{gap:48px;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Guilherme<em>.</em>Mognon</a>
+  <div class="nav-links">
+    <a href="#solucao">Método</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="nav-btn">Consultoria Grátis</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow r">Especialista em Alavancagem Patrimonial</div>
+    <h1 class="hero-h1 r d1">
+      <em>Construa seu</em>
+      <strong>Patrimônio</strong>
+      Sem Juros
+    </h1>
+    <p class="hero-desc r d2">Pare de financiar os lucros dos bancos. Nossa consultoria especializada transforma sua capacidade de poupança em ativos reais — imóveis, veículos e negócios — com poder de compra à vista.</p>
+    <div class="hero-actions r d3">
+      <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="btn-prim">Agendar Consultoria Grátis</a>
+      <a href="#solucao" class="btn-ghost">
+        <span class="btn-ghost-arrow"></span>
+        Ver o Método
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="hero-stat r d1">
+        <div class="stat-num">+10M</div>
+        <div class="stat-info">
+          <div class="stat-label">Liberados mensalmente</div>
+          <div class="stat-desc">Em créditos estratégicos para clientes em toda América</div>
+        </div>
+      </div>
+      <div class="hero-stat r d2">
+        <div class="stat-num">70%</div>
+        <div class="stat-info">
+          <div class="stat-label">Economia vs Financiamento</div>
+          <div class="stat-desc">Redução média no custo total de aquisição com estratégia de consórcio</div>
+        </div>
+      </div>
+      <div class="hero-stat r d3">
+        <div class="stat-num">100%</div>
+        <div class="stat-info">
+          <div class="stat-label">Consultoria sem risco</div>
+          <div class="stat-desc">Você avança somente se a estratégia fizer sentido para o seu perfil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div>
+</section>
+
+<!-- URGENCY -->
+<div class="urgency-bar">
+  <span class="urg-label"><span class="urg-red">—</span> Vagas limitadas este mês <span class="urg-red">—</span></span>
+  <div class="timer-row">
+    <div class="t-unit"><div class="t-num" id="hours">23</div><div class="t-label">h</div></div>
+    <div class="t-sep">:</div>
+    <div class="t-unit"><div class="t-num" id="minutes">59</div><div class="t-label">m</div></div>
+    <div class="t-sep">:</div>
+    <div class="t-unit"><div class="t-num" id="seconds">47</div><div class="t-label">s</div></div>
+  </div>
+  <span class="urg-label">Oferta encerra em</span>
+</div>
+
+<!-- DOR -->
+<section class="pain-wrap">
+  <div class="s-pad">
+    <div class="s-label r">O Diagnóstico</div>
+    <h2 class="pain-h r d1">Você se reconhece <em>em algum destes cenários?</em></h2>
+    <div class="pain-grid">
+      <div class="pain-card r d1">
+        <span class="pain-n">01</span>
+        <h3>Juros consumindo seus sonhos</h3>
+        <p>Você quer um imóvel ou expandir sua frota, mas os juros dos financiamentos tornam o custo final proibitivo — pagando às vezes o dobro do valor real do bem.</p>
+      </div>
+      <div class="pain-card r d2">
+        <span class="pain-n">02</span>
+        <h3>Poupança sem direção</h3>
+        <p>Você tem capacidade de guardar dinheiro, mas sem um método estruturado ele se desvaloriza ou fica parado sem gerar o patrimônio que você deseja.</p>
+      </div>
+      <div class="pain-card r d3">
+        <span class="pain-n">03</span>
+        <h3>Mercado imobiliário inacessível</h3>
+        <p>Investir em imóveis parece complexo e reservado a quem já tem capital. Impostos, burocracia e necessidade de entrada elevada parecem barreiras intransponíveis.</p>
+      </div>
+      <div class="pain-card r d4">
+        <span class="pain-n">04</span>
+        <h3>Paralisia nas decisões</h3>
+        <p>O medo de escolher errado e ficar preso em um compromisso que não funciona impede qualquer movimento. Sem clareza, o status quo vence sempre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="sol-wrap" id="solucao">
+  <div class="s-pad">
+    <div class="sol-inner">
+      <div class="sol-left">
+        <div class="s-label r">A Solução</div>
+        <h2 class="r d1"><em>Método</em> P.A.C.E.</h2>
+        <p class="r d2">Com a <strong>Consultoria Especializada da Ademicon</strong>, você não apenas adquire um bem — você recebe um plano estratégico completo para construção de patrimônio sem juros.</p>
+        <p class="r d3">Não vendemos consórcios. Desenhamos o mapa exato para a sua <strong>contemplação acelerada</strong> e alavancagem financeira real.</p>
+        <div class="pace-steps r d3">
+          <div class="pace-step">
+            <div class="pace-letter">P</div>
+            <div><div class="pace-step-title">Planejamento Personalizado</div><div class="pace-step-desc">Diagnóstico do seu perfil financeiro, objetivos e capacidade de investimento.</div></div>
+          </div>
+          <div class="pace-step">
+            <div class="pace-letter">A</div>
+            <div><div class="pace-step-title">Alavancagem Financeira</div><div class="pace-step-desc">Estratégias para maximizar poder de compra sem comprometer o fluxo de caixa.</div></div>
+          </div>
+          <div class="pace-step">
+            <div class="pace-letter">C</div>
+            <div><div class="pace-step-title">Contemplação Estratégica</div><div class="pace-step-desc">Técnicas de lance, seleção de grupo e timing para acelerar sua contemplação.</div></div>
+          </div>
+          <div class="pace-step">
+            <div class="pace-letter">E</div>
+            <div><div class="pace-step-title">Execução Assistida</div><div class="pace-step-desc">Acompanhamento até a contemplação e suporte no uso inteligente da carta.</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="pace-visual r d2">
+          <div class="pace-badge">Metodologia Exclusiva · Ademicon</div>
+          <div class="pace-big">PACE</div>
+          <div class="pace-tagline">"Transformar 'sorte' em método.<br>Contemplação previsível, não aleatória."</div>
+          <div class="pace-chips">
+            <div class="pace-chip">Planejamento</div>
+            <div class="pace-chip">Alavancagem</div>
+            <div class="pace-chip">Contemplação</div>
+            <div class="pace-chip">Execução</div>
+          </div>
+          <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="pace-cta-link">
+            Quero aplicar o Método P.A.C.E.
+            <div class="pace-cta-arrow"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="ben-wrap" id="beneficios">
+  <div class="s-pad">
+    <div class="ben-header">
+      <div>
+        <div class="s-label r">Benefícios</div>
+        <h2 class="ben-h r d1">O que você <em>vai conquistar</em></h2>
+      </div>
+      <p class="ben-sub r d2">Não estamos entregando um consórcio. Estamos entregando a estratégia completa para a sua liberdade financeira.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-card r d1">
+        <div class="ben-card-num">i.</div>
+        <h3>Zero juros.<br>100% seu patrimônio.</h3>
+        <p>Cada centavo investido vai para o bem que você escolheu — não para os lucros dos bancos. A taxa de administração é uma fração dos juros de um financiamento.</p>
+      </div>
+      <div class="ben-card r d2">
+        <div class="ben-card-num">ii.</div>
+        <h3>Poder de compra à vista</h3>
+        <p>A carta de crédito tem o mesmo poder do dinheiro em espécie. Negocie descontos de 10% a 20% que financiados jamais conseguiriam.</p>
+      </div>
+      <div class="ben-card r d3">
+        <div class="ben-card-num">iii.</div>
+        <h3>Contemplação acelerada</h3>
+        <p>Com estratégia de lance e seleção de grupo adequada, a contemplação pode ocorrer em meses, não em décadas. Método, não sorte.</p>
+      </div>
+      <div class="ben-card r d4">
+        <div class="ben-card-num">iv.</div>
+        <h3>Patrimônio que gera renda</h3>
+        <p>Transforme parcelas em ativos imobiliários geradores de renda passiva. Construa uma aposentadoria baseada em ativos reais.</p>
+      </div>
+      <div class="ben-card r d5">
+        <div class="ben-card-num">v.</div>
+        <h3>Decisões com clareza total</h3>
+        <p>Simulações comparativas detalhadas, projeções reais e especialista dedicado. Nenhuma decisão tomada no escuro ou sob pressão comercial.</p>
+      </div>
+      <div class="ben-card r d1">
+        <div class="ben-card-num">vi.</div>
+        <h3>Estratégia de longo prazo</h3>
+        <p>Um plano de múltiplos consórcios que funciona como uma máquina de criação de patrimônio — escalável conforme sua renda cresce.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section class="obj-wrap">
+  <div class="s-pad">
+    <div class="obj-inner">
+      <div class="obj-left">
+        <div class="s-label r">Desmistificando</div>
+        <h2 class="r d1">Mitos que te impedem<br><em>de crescer</em></h2>
+      </div>
+      <div class="obj-list">
+        <div class="obj-item r d1">
+          <button class="obj-q" onclick="toggleObj(this)">
+            <span>"Consórcio demora muito."</span>
+            <div class="obj-icon"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </button>
+          <div class="obj-a"><div class="obj-a-inner">A demora é consequência de <strong>entrar sem estratégia</strong>. Com técnica correta de lance e seleção de grupo, a contemplação pode ocorrer nos primeiros meses. É exatamente isso que o Método P.A.C.E. resolve.</div></div>
+        </div>
+        <div class="obj-item r d2">
+          <button class="obj-q" onclick="toggleObj(this)">
+            <span>"Prefiro financiamento — é mais rápido."</span>
+            <div class="obj-icon"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </button>
+          <div class="obj-a"><div class="obj-a-inner">Financiamento é mais rápido, mas em um imóvel de R$500k você pagará <strong>até R$1 milhão</strong> ao final. Consórcio estratégico pode contemplar em 6–18 meses. A questão é: quanto custa sua pressa?</div></div>
+        </div>
+        <div class="obj-item r d3">
+          <button class="obj-q" onclick="toggleObj(this)">
+            <span>"Tenho medo de escolher errado."</span>
+            <div class="obj-icon"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </button>
+          <div class="obj-a"><div class="obj-a-inner">É exatamente por isso que existimos. Nossa consultoria começa com um <strong>diagnóstico completo</strong> e só avança se a estratégia fizer sentido para o seu perfil específico. Zero pressão. Zero risco de decisão equivocada.</div></div>
+        </div>
+        <div class="obj-item r d4">
+          <button class="obj-q" onclick="toggleObj(this)">
+            <span>"Conheço quem entrou e não foi contemplado."</span>
+            <div class="obj-icon"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </button>
+          <div class="obj-a"><div class="obj-a-inner">Existem consórcios e <strong>consórcios estratégicos</strong>. Quem entra sem planejamento depende de sorte. Com nosso método, você não joga na fila — você tem um plano ativo de aceleração de contemplação.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="test-wrap" id="resultados">
+  <div class="s-pad">
+    <div class="test-h-row">
+      <h2 class="test-h r d1">Resultados <em>reais</em></h2>
+      <p class="test-h-note r d2">Histórias de clientes que pararam de pagar juros e passaram a construir patrimônio com inteligência.</p>
+    </div>
+    <div class="test-grid">
+      <div class="test-card r d1">
+        <div class="test-mark">"</div>
+        <div class="test-stars"><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span></div>
+        <p class="test-text">Eu achava que consórcio era questão de sorte. Em 8 meses, fui contemplado e adquiri meu primeiro imóvel para renda. É um <strong>divisor de águas na construção de patrimônio.</strong></p>
+        <div class="test-rule"></div>
+        <div class="test-name">Ricardo Mendes</div>
+        <div class="test-role">Empresário · São Paulo, SP</div>
+      </div>
+      <div class="test-card r d2">
+        <div class="test-mark">"</div>
+        <div class="test-stars"><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span></div>
+        <p class="test-text">Precisava renovar a frota da empresa. Os financiamentos eram inviáveis. Com a estratégia do Guilherme, <strong>conseguimos a carta em tempo recorde e economizamos uma fortuna.</strong></p>
+        <div class="test-rule"></div>
+        <div class="test-name">Carlos Andrade</div>
+        <div class="test-role">Diretor Comercial · Campinas, SP</div>
+      </div>
+      <div class="test-card r d3">
+        <div class="test-mark">"</div>
+        <div class="test-stars"><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span><span class="test-star">★</span></div>
+        <p class="test-text">Sempre tive receio de consórcio. A consultoria me deu clareza e segurança. Hoje tenho <strong>dois imóveis gerando renda passiva</strong> sem ter pago um centavo de juros.</p>
+        <div class="test-rule"></div>
+        <div class="test-name">Fernanda Lima</div>
+        <div class="test-role">Médica · Belo Horizonte, MG</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="offer-wrap" id="oferta">
+  <div class="s-pad">
+    <div class="offer-inner">
+      <div>
+        <div class="s-label r">A Oferta</div>
+        <h2 class="r d1"><em>Tudo que você</em> recebe</h2>
+        <p class="r d2">Nossa oferta não é um produto. É uma parceria estratégica para a sua liberdade financeira — com acompanhamento real do início ao uso da carta de crédito.</p>
+        <div class="offer-items r d3">
+          <div class="offer-item">
+            <div><div class="offer-item-title">Diagnóstico Financeiro Personalizado</div><div class="offer-item-desc">Análise completa do seu perfil e objetivos</div></div>
+            <div class="offer-item-val"><span class="offer-item-del">R$ 497</span><span class="offer-item-free">Grátis</span></div>
+          </div>
+          <div class="offer-item">
+            <div><div class="offer-item-title">Estratégia de Consórcio Inteligente</div><div class="offer-item-desc">Melhor cota, grupo e estratégia de lance</div></div>
+            <div class="offer-item-val"><span class="offer-item-del">R$ 997</span><span class="offer-item-free">Grátis</span></div>
+          </div>
+          <div class="offer-item">
+            <div><div class="offer-item-title">Simulações Comparativas Detalhadas</div><div class="offer-item-desc">Consórcio vs Financiamento em números reais</div></div>
+            <div class="offer-item-val"><span class="offer-item-del">R$ 397</span><span class="offer-item-free">Grátis</span></div>
+          </div>
+          <div class="offer-item">
+            <div><div class="offer-item-title">Acompanhamento Estratégico Contínuo</div><div class="offer-item-desc">Suporte especializado até a contemplação</div></div>
+            <div class="offer-item-val"><span class="offer-item-del">R$ 1.997</span><span class="offer-item-free">Grátis</span></div>
+          </div>
+          <div class="offer-item">
+            <div><div class="offer-item-title">Suporte Direto e Revisões Periódicas</div><div class="offer-item-desc">Especialista dedicado em cada etapa</div></div>
+            <div class="offer-item-val"><span class="offer-item-del">R$ 1.394</span><span class="offer-item-free">Grátis</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="offer-box r d2">
+          <div class="offer-box-eyebrow">Consultoria Inaugural · Sem Custo</div>
+          <div class="offer-box-h">Comece <span>hoje</span><br>sem custo.</div>
+          <p class="offer-box-sub">Você só avança com o consórcio se a estratégia fizer sentido para você. Zero compromisso. Zero pressão.</p>
+          <div class="bonus-list">
+            <div class="bonus-line"><div class="bonus-dot"></div><div class="bonus-text"><strong>Bônus:</strong> Guia "Como ser Contemplado Mais Rápido" — R$ 147</div></div>
+            <div class="bonus-line"><div class="bonus-dot"></div><div class="bonus-text"><strong>Bônus:</strong> Simulação de Antecipação de Contemplação — R$ 297</div></div>
+            <div class="bonus-line"><div class="bonus-dot"></div><div class="bonus-text"><strong>Bônus:</strong> Estratégias de Clientes Contemplados em Tempo Recorde — R$ 397</div></div>
+            <div class="bonus-line"><div class="bonus-dot"></div><div class="bonus-text"><strong>Bônus:</strong> Análise Completa Financiamento vs. Consórcio — R$ 247</div></div>
+          </div>
+          <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="offer-cta">Agendar Consultoria Grátis Agora</a>
+          <p class="offer-note">Sem compromisso · Sem cartão de crédito</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-wrap" id="faq">
+  <div class="s-pad">
+    <div class="s-label r">FAQ</div>
+    <h2 class="faq-h r d1">Perguntas <em>frequentes</em></h2>
+    <div class="faq-grid">
+      <div class="faq-card r d1">
+        <div class="faq-num">01.</div>
+        <div class="faq-q">O que é o Método P.A.C.E.?</div>
+        <div class="faq-a">Metodologia exclusiva de Planejamento personalizado, Alavancagem financeira, Contemplação estratégica e Execução assistida — criada para transformar contemplação de variável aleatória em resultado previsível.</div>
+      </div>
+      <div class="faq-card r d2">
+        <div class="faq-num">02.</div>
+        <div class="faq-q">A consultoria é realmente gratuita?</div>
+        <div class="faq-a">Sim. Nossa primeira conversa serve para entender seus objetivos, apresentar a melhor estratégia e esclarecer todas as dúvidas — sem custo e sem obrigação de fechar negócio.</div>
+      </div>
+      <div class="faq-card r d3">
+        <div class="faq-num">03.</div>
+        <div class="faq-q">Posso usar consórcio para investir em imóveis?</div>
+        <div class="faq-a">Sim, e essa é uma das estratégias mais poderosas. Muitos clientes utilizam a carta de crédito para adquirir imóveis que geram renda passiva — construindo patrimônio sem pagar juros de financiamento.</div>
+      </div>
+      <div class="faq-card r d4">
+        <div class="faq-num">04.</div>
+        <div class="faq-q">Quanto tempo leva para ser contemplado?</div>
+        <div class="faq-a">Com estratégia adequada de lances e seleção de grupo, contemplação em 6 a 18 meses é viável. Sem estratégia, o tempo pode ser indefinido.</div>
+      </div>
+      <div class="faq-card r d5">
+        <div class="faq-num">05.</div>
+        <div class="faq-q">Preciso de muito capital para começar?</div>
+        <div class="faq-a">Não. Parcelas e entrada são ajustadas ao seu perfil financeiro real. A consultoria encontra a estrutura que cabe no seu orçamento sem comprometer sua liquidez.</div>
+      </div>
+      <div class="faq-card r d1">
+        <div class="faq-num">06.</div>
+        <div class="faq-q">Atende clientes fora de São Paulo?</div>
+        <div class="faq-a">Sim. Atendimento 100% online para toda a América. Mais de R$ 10 milhões em créditos estratégicos liberados mensalmente para clientes em diferentes estados e países.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-wrap">
+  <div class="s-pad">
+    <div class="final-inner">
+      <div class="final-eyebrow r">Aja Agora</div>
+      <h2 class="final-h r d1">Pare de financiar<br><em>os sonhos dos outros.</em></h2>
+      <p class="final-p r d2">Você tem a oportunidade de ter uma equipe de especialistas trabalhando para que você conquiste seu patrimônio com inteligência financeira. Sua liberdade está a um clique.</p>
+      <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="final-cta r d3">Quero minha consultoria gratuita</a>
+      <br>
+      <div class="final-guarantee r d4">Consultoria 100% gratuita · Sem compromisso · Sem riscos</div>
+      <p class="final-ps r d5">PS: O problema nunca foi o consórcio — foi entrar sem estratégia. Você tem essa oportunidade agora.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Guilherme<em>.</em>Mognon</div>
+  <div class="footer-links">
+    <a href="#">Global Credit Solutions</a>
+    <a href="#">Política de Privacidade</a>
+    <a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank">Falar Comigo</a>
+  </div>
+  <div class="footer-copy">© 2026 Guilherme Mognon</div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-pulse"></div>
+<a href="https://wa.me/message/F7A4FYT5464ND1" target="_blank" class="wa-float">
+  <svg class="wa-icon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Falar Comigo
+</a>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});
+});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');}),{threshold:.08,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+
+// ACCORDION
+function toggleObj(btn){
+  const item=btn.parentElement,open=item.classList.contains('open');
+  document.querySelectorAll('.obj-item').forEach(i=>i.classList.remove('open'));
+  if(!open)item.classList.add('open');
+}
+
+// TIMER
+let t=23*3600+59*60+47;
+setInterval(()=>{
+  if(t<=0){t=86400;return;}t--;
+  const h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;
+  document.getElementById('hours').textContent=String(h).padStart(2,'0');
+  document.getElementById('minutes').textContent=String(m).padStart(2,'0');
+  document.getElementById('seconds').textContent=String(s).padStart(2,'0');
+},1000);
+</script>
+</body>
+</html>
